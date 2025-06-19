@@ -15,7 +15,7 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/Aseemakram19/amazon-prime-video-kubernetes.git'
+                git branch: 'main', url: 'https://github.com/Sanjaysaravanan20/Amazon-Prime.git'
             }
         }
         stage("Sonarqube Analysis "){
@@ -47,9 +47,9 @@ pipeline{
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
-                       sh "docker build -t amazon-prime-video ."
-                       sh "docker tag amazon-prime-video aseemakram19/amazon-prime-video:latest "
-                       sh "docker push aseemakram19/amazon-prime-video:latest "
+                       sh "docker build -t amazon-prime ."
+                       sh "docker tag amazon-prime-video sanjaysaravanan1/amazon-prime:latest "
+                       sh "docker push sanjaysaravanan1/amazon-prime:latest "
                     }
                 }
             }
@@ -58,9 +58,9 @@ pipeline{
             steps {
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh 'docker-scout quickview aseemakram19/amazon-prime-video:latest'
-                       sh 'docker-scout cves aseemakram19/amazon-prime-video:latest'
-                       sh 'docker-scout recommendations aseemakram19/amazon-prime-video:latest'
+                       sh 'docker-scout quickview sanjaysaravanan1/amazon-prime:latest'
+                       sh 'docker-scout cves sanjaysaravanan1/amazon-prime:latest'
+                       sh 'docker-scout recommendations sanjaysaravanan1/amazon-prime:latest'
                    }
                 }
             }
@@ -68,12 +68,12 @@ pipeline{
 
         stage("TRIVY-docker-images"){
             steps{
-                sh "trivy image aseemakram19/amazon-prime-video:latest > trivyimage.txt" 
+                sh "trivy image sanjaysaravanan1/amazon-prime:latest > trivyimage.txt" 
             }
         }
         stage('App Deploy to Docker container'){
             steps{
-                sh 'docker run -d --name amazon-prime-video -p 3000:3000 aseemakram19/amazon-prime-video:latest'
+                sh 'docker run -d --name amazon-prime -p 3000:3000 sanjaysaravanan1/amazon-prime-video:latest'
             }
         }
 
@@ -94,9 +94,9 @@ pipeline{
                     <p>Started by: ${buildUser}</p>
                     <p>Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                 """,
-                to: 'mohdaseemakram19@gmail.com',
-                from: 'mohdaseemakram19@gmail.com',
-                replyTo: 'mohdaseemakram19@gmail.com',
+                to: 'sanjaysaravanan205@gmail.com',
+                from: 'sanjaysaravanan205@gmail.com',
+                replyTo: 'sanjaysaravanan205@gmail.com',
                 mimeType: 'text/html',
                 attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
             )
