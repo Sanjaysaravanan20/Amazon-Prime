@@ -73,7 +73,7 @@ pipeline{
         }
         stage('App Deploy to Docker container'){
             steps{
-                sh 'docker run -d --name amazon-prime -p 3000:3000 sanjaysaravanan1/amazon-prime-video:latest'
+                sh 'docker run -d --name amazon-prime -p 3000:3000 sanjaysaravanan1/amazon-prime:latest'
             }
         }
 
