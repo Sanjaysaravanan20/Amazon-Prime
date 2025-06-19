@@ -21,8 +21,8 @@ pipeline{
         stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('SonarQube') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=amazon-prime-video \
-                    -Dsonar.projectKey=amazon-prime-video '''
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=amazon-prime \
+                    -Dsonar.projectKey=amazon-prime '''
                 }
             }
         }
@@ -48,7 +48,7 @@ pipeline{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
                        sh "docker build -t amazon-prime ."
-                       sh "docker tag amazon-prime-video sanjaysaravanan1/amazon-prime:latest "
+                       sh "docker tag amazon-prime sanjaysaravanan1/amazon-prime:latest "
                        sh "docker push sanjaysaravanan1/amazon-prime:latest "
                     }
                 }
@@ -87,7 +87,7 @@ pipeline{
             emailext (
                 subject: "Pipeline ${buildStatus}: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
-                    <p>This is a Jenkins amazon-prime-video CICD pipeline status.</p>
+                    <p>This is a Jenkins amazon-prime CICD pipeline status.</p>
                     <p>Project: ${env.JOB_NAME}</p>
                     <p>Build Number: ${env.BUILD_NUMBER}</p>
                     <p>Build Status: ${buildStatus}</p>
